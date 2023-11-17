@@ -77,6 +77,18 @@ function displayQuiz(questions) {
         }
 
         const correctOptionIndex = options.indexOf(question['Correct Option']);
+        const correctOptionLetter = question['Correct Option'];
+
+        var correctAnswer = options[0];
+        switch(correctOptionLetter){
+            case 'a': correctAnswer = options[0]; break;
+            case 'b': correctAnswer = options[1]; break;
+            case 'c': correctAnswer = options[2]; break;
+            case 'd': correctAnswer = options[3]; break;
+            default : correctAnswer = options[0]; break;
+
+         }
+
 
         // Iterate through options and create HTML elements
         options.forEach((option, optionIndex) => {
@@ -93,6 +105,21 @@ function displayQuiz(questions) {
             // Add click event listener to log the selected option
             optionElement.addEventListener('click', function () {
                 console.log(`Selected option for question ${index + 1}: ${option}`);
+               // console.log("correct option"+ correctOptionIndex);
+//                console.log('Correct Option:', question['Correct Option']);
+// console.log('Options:', options);
+console.log('Correct Answer', correctAnswer);
+if(option === correctAnswer) {
+    console.log('Correct Answer');
+    labelElement.innerHTML += ' ✅ ';
+                console.log("correct");
+}
+else{
+    console.log('Wrong Answer');
+    labelElement.innerHTML += ' ❌ ';
+}
+
+
             });
 
             // Mark the correct option
