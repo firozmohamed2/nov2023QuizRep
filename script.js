@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // ...
 
+// ...
+
 function displayQuiz(questions) {
     const quizContainer = document.getElementById('quiz-container');
 
@@ -49,14 +51,32 @@ function displayQuiz(questions) {
 
         // Check if the question object has 'Option 1', 'Option 2', etc. properties
         const options = [];
+        
         for (let i = 1; i <= 4; i++) {
-            const optionKey = `Option ${i}`;
-            if (!question.hasOwnProperty(optionKey)) {
+            var optionKey ='a';
+            switch(i){
+               case 1: optionKey = 'a'; break;
+               case 2: optionKey = 'b'; break;
+               case 3: optionKey = 'c'; break;
+               case 4: optionKey = 'd'; break;
+               default : optionKey = 'a'; break;
+
+            }
+           // const optionKey = `Option ${i}`;
+            if (!question.hasOwnProperty(optionKey)) { 
                 console.error(`Missing '${optionKey}' property for question ${index + 1}.`);
                 return;
             }
             options.push(question[optionKey]);
         }
+
+        // Check if the question object has a 'Correct Option' property
+        if (!question.hasOwnProperty('Correct Option')) { 
+            console.error(`Missing 'Correct Option' property for question ${index + 1}.`);
+            return;
+        }
+
+        const correctOptionIndex = options.indexOf(question['Correct Option']);
 
         // Iterate through options and create HTML elements
         options.forEach((option, optionIndex) => {
@@ -70,6 +90,17 @@ function displayQuiz(questions) {
             labelElement.htmlFor = `question-${index}-option-${optionIndex}`;
             labelElement.innerHTML = option;
 
+            // Add click event listener to log the selected option
+            optionElement.addEventListener('click', function () {
+                console.log(`Selected option for question ${index + 1}: ${option}`);
+            });
+
+            // Mark the correct option
+            if (optionIndex === correctOptionIndex) {
+                labelElement.innerHTML += ' (Correct)';
+                console.log("correct");
+            }
+
             questionElement.appendChild(optionElement);
             questionElement.appendChild(labelElement);
         });
@@ -79,6 +110,7 @@ function displayQuiz(questions) {
 }
 
 // ...
+
 
 
     // Attach event listener to file input
